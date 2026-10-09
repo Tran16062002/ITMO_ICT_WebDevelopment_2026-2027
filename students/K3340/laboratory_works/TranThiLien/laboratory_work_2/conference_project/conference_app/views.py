@@ -4,9 +4,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.contrib.auth import login
 
 from .models import Conference, Registration, Review
-from .forms import RegistrationForm, ReviewForm, ConferenceForm
+from .forms import RegistrationForm, ReviewForm, ConferenceForm, UserRegisterForm
 
 
 # ============ FBV ============
@@ -89,3 +90,23 @@ class RegistrationDeleteView(DeleteView):
 
     def get_success_url(self):
         return reverse_lazy('conference_detail', kwargs={'conference_id': self.object.conference.id})
+
+def register(request):
+    """Đăng ký user mới, sau khi đăng ký tự động đăng nhập"""
+    if request.method == 'POST':
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)             # Đăng nhập luôn sau khi đăng ký
+            messages.success(request, 'Đăng ký thành công!')
+            return redirect('conference_list')
+    else:
+        form = UserRegisterForm()
+    return render(request, 'register.html', {'form': form})
+
+def participants_table(request):
+    """Hiển thị bảng tất cả người tham gia theo từng hội nghị"""
+    conferences = Conference.objects.prefetch_related(
+        'registrations__author'
+    ).all()
+    return render(request, 'participants_table.html', {'conferences': conferences})

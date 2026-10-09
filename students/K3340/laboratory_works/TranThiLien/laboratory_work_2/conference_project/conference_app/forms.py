@@ -1,4 +1,7 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import get_user_model
+
 from .models import Registration, Review, Conference
 
 
@@ -19,3 +22,14 @@ class ConferenceForm(forms.ModelForm):
         model = Conference
         fields = ['title', 'topics', 'venue', 'start_date', 'end_date',
                   'description', 'venue_desc', 'conditions']
+
+User = get_user_model()
+
+class UserRegisterForm(UserCreationForm):
+    """Form đăng ký user mới — kế thừa UserCreationForm của Django"""
+    email = forms.EmailField(required=True)
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'first_name', 'last_name',
+                  'password1', 'password2']

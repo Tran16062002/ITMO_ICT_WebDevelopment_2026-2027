@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Стол участников</title>
+    <style>
+        table { border-collapse: collapse; width: 100%; margin-bottom: 30px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background: #f0f0f0; }
+    </style>
+</head>
+<body>
+    <h1>Таблица участников по конференциям</h1>
+
+    {% for c in conferences %}
+        <h2>{{ c.title }} ({{ c.start_date }} — {{ c.end_date }})</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Автор</th>
+                    <th>Название отчета</th>
+                    <th>Статус</th>
+                    <th>Предполагаемая</th>
+                    <th>Дата регистрацииý</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in c.registrations.all %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ r.author.get_full_name|default:r.author.username }}</td>
+                        <td>{{ r.report_title }}</td>
+                        <td>{{ r.get_status_display }}</td>
+                        <td>{% if r.recommended %}✅ Да{% else %}❌ Нет{% endif %}</td>
+                        <td>{{ r.created_at|date:"d.m.Y" }}</td>
+                    </tr>
+                {% empty %}
+                    <tr><td colspan="6">Никто еще не зарегистрировался.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endfor %}
+
+    <a href="{% url 'conference_list' %}">← Список конференций</a>
+</body>
+</html>

@@ -4,9 +4,9 @@ from django.conf import settings
 
 class Conference(models.Model):
     title       = models.CharField(max_length=200)
-    topics      = models.ManyToManyField('Topic', through='ConferenceTopic', blank=True)  # ← SỬA
+    topics      = models.ManyToManyField('Topic', through='ConferenceTopic', blank=True)
     venue       = models.CharField(max_length=200)
-    venue_ref   = models.ForeignKey('Venue', on_delete=models.SET_NULL, null=True, blank=True)  # ← THÊM
+    venue_ref   = models.ForeignKey('Venue', on_delete=models.SET_NULL, null=True, blank=True)
     start_date  = models.DateField()
     end_date    = models.DateField()
     description = models.TextField()

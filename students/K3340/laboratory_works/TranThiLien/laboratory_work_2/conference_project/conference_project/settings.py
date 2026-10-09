@@ -126,3 +126,22 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
+# ============================================================
+# ★ BÀI 2.3 — Authentication (THÊM MỚI) ★
+# ============================================================
+
+# Sau khi đăng nhập thành công → chuyển về trang chủ
+LOGIN_REDIRECT_URL = '/'
+
+# Sau khi đăng xuất → chuyển về trang chủ
+LOGOUT_REDIRECT_URL = '/'
+
+# URL trang đăng nhập — dùng khi @login_required phát hiện user chưa đăng nhập
+LOGIN_URL = '/accounts/login/'
+
+
+# ============================================================
+# Default primary key field type
+# ============================================================
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
