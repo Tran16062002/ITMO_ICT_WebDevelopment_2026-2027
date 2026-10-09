@@ -1,0 +1,14 @@
+<h1>Список конференций</h1>
+{% if user.is_authenticated %}
+    <a href="{% url 'conference_create' %}">+ Создать конференцию</a>
+{% endif %}
+<ul>
+    {% for c in conferences %}
+        <li>
+            <a href="{% url 'conference_detail' c.id %}">{{ c.title }}</a>
+            — {{ c.start_date }} → {{ c.end_date }}
+        </li>
+    {% empty %}
+        <li>Нет конференций</li>
+    {% endfor %}
+</ul>

@@ -3,11 +3,44 @@
 <head><title>{{ conference.title }}</title></head>
 <body>
     <h1>{{ conference.title }}</h1>
-    <p><strong>Chủ đề:</strong> {{ conference.topics }}</p>
-    <p><strong>Địa điểm:</strong> {{ conference.venue }}</p>
-    <p><strong>Thời gian:</strong> {{ conference.start_date }} — {{ conference.end_date }}</p>
-    <p><strong>Mô tả:</strong> {{ conference.description }}</p>
-    <p><strong>Mô tả địa điểm:</strong> {{ conference.venue_desc }}</p>
-    <p><strong>Điều kiện:</strong> {{ conference.conditions }}</p>
+    <p><strong>Тема:</strong>
+        {% for ct in conference.conferencetopic_set.all %}{{ ct.topic.name }}{% if not forloop.last %}, {% endif %}{% endfor %}
+    </p>
+    <p><strong>Место проведения:</strong> {{ conference.venue }}</p>
+    <p><strong>Даты:</strong> {{ conference.start_date }} — {{ conference.end_date }}</p>
+    <p><strong>Описание:</strong> {{ conference.description }}</p>
+
+    <hr>
+    <h2>Заявки на выступления</h2>
+    {% if user.is_authenticated %}
+        <a href="{% url 'registration_create' conference.id %}">+ Подать заявку</a>
+    {% endif %}
+    <ul>
+        {% for r in registrations %}
+            <li>
+                <strong>{{ r.report_title }}</strong> — {{ r.author }}
+                ({{ r.get_status_display }})
+                {% if r.author == user %}
+                    | <a href="{% url 'registration_update' r.pk %}">Редактировать</a>
+                    | <a href="{% url 'registration_delete' r.pk %}">Удалить</a>
+                {% endif %}
+            </li>
+        {% empty %}
+            <li>Заявок пока нет.</li>
+        {% endfor %}
+    </ul>
+
+    <hr>
+    <h2>Отзывы</h2>
+    {% if user.is_authenticated %}
+        <a href="{% url 'review_create' conference.id %}">+ Оставить отзыв</a>
+    {% endif %}
+    <ul>
+        {% for rev in reviews %}
+            <li><strong>{{ rev.author }}</strong> — {{ rev.rating }}/10<br>{{ rev.text }}</li>
+        {% empty %}
+            <li>Отзывов пока нет.</li>
+        {% endfor %}
+    </ul>
 </body>
 </html>

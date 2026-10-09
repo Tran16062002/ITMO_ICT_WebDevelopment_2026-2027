@@ -1,0 +1,6 @@
+<p>Удалить "{{ object.report_title }}"?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Удалить</button>
+    <a href="{% url 'conference_detail' object.conference.id %}">Отмена</a>
+</form>
