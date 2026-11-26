@@ -1,0 +1,28 @@
+site_name: Laboratory Work 3 — Django REST Framework
+site_description: ЛР3, вариант 2 «Библиотека», практики 3.1 и 3.2
+docs_dir: docs
+theme:
+  name: material
+  language: ru
+nav:
+  - Главная: index.md
+  - Практика 3.1: practice3_1.md
+  - Практика 3.2: practice3_2.md
+  - Вариант 2 «Библиотека»:
+      - Описание: lab3/overview.md
+      - Установка и запуск: lab3/setup.md
+      - Модель данных: lab3/models.md
+      - Авторизация (Djoser): lab3/auth.md
+      - CRUD: lab3/crud.md
+      - Вложенные объекты: lab3/nested.md
+      - Операции библиотекаря: lab3/operations.md
+      - Аналитические запросы: lab3/analytics.md
+      - Отчёт за месяц: lab3/report.md
+  - Вывод: conclusion.md
+markdown_extensions:
+  - toc:
+      permalink: true
+  - tables
+  - admonition
+  - pymdownx.highlight
+  - pymdownx.superfences
